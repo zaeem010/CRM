@@ -15,7 +15,9 @@ namespace CRM.Models.Raw
     }
     public class CRMVMQ 
     {
+        public int id { get; set; }
         public string Userid { get; set; }
+        public string Mob { get; set; }
         public DateTime DateTime { get; set; }
         public string Remarks { get; set; }
     }

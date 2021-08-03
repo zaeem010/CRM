@@ -37,14 +37,14 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="inputState">Mobile Contact/No</label>
-                                    <input id="tags" class="form-control" asp-for="CRMDATA.Mob" onkeyup="Action(this.value)">
+                                    <input id="tags" class="form-control" required asp-for="CRMDATA.Mob" onkeyup="Action(this.value)">
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-4">
                                     <label for="inputEmail4">Customer Name</label>
-                                    <input type="text" asp-for="CRMDATA.CusName" id="Cus" class="form-control" placeholder="Name">
+                                    <input type="text" asp-for="CRMDATA.CusName" required id="Cus" class="form-control" placeholder="Name">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label for="inputPassword4">City</label>
@@ -72,7 +72,7 @@
                             <div class="form-row">
                                 <div class="col-md-12">
                                     <label>Remarks</label>
-                                    <textarea class="form-control" id="Remarks" asp-for="CRMDATA.Remarks" cols="5" rows="3"></textarea>
+                                    <textarea class="form-control" asp-for="CRMDATAChild.Remarks" cols="5" rows="3"></textarea>
                                 </div>
                             </div>
                             <br />
@@ -106,13 +106,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @*<tr>
-                                            <td>Quinn Flynn</td>
-                                            <td>System Architect</td>
-                                            <td>Edinburgh</td>
-                                        </tr>*@
-
-
                                 </tbody>
 
                             </table>
@@ -126,9 +119,28 @@
 
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal hide fade" id="orderModal" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div id="orderDetails" class="modal-body"></div>
+            <div id="orderItems" class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- [ Main Content ] end -->
 <script>
-
     $(function () {
         var availableTags = [
             @foreach (var Lst in Model.Contacts)
@@ -140,15 +152,9 @@
             minLength: 3,
             source: availableTags
         });
-
     });
-
     function Action(id) {
-        //let date = new Date(Date.parse('DD.MM.YYYY H:mm'));
-        //alert(date);
-
         var count = document.getElementById("tags").value.length;
-        //alert(count);
         if (count == 0) {
             $("#Cus").val('');
             $("#City").val('');
@@ -184,15 +190,13 @@
               data: { 'id': id },
               dataType: "json",
               success: function (data1) {
-
                   document.getElementById("lblmodAlertClient").innerHTML = data1.length + " records found";
                   if (data1 != null) {
                       $.each(data1, function (i, item) {
-                          
                           var row = "";
-                          row += "<tr><td>" + item.userid
+                          row += "<tr data-toggle='modal' data-id='3' data-target='#orderModal'><td>" + item.userid
                               //+ "</td><td>" + item.dateTime
-                              + "</td><td>" + moment(item.dateTime).format('DD-MM-YYYY H:mm A')
+                              + "</td><td>" + moment(item.dateTime).format('DD-MM-YYYY h:mm A')
                               + "</td><td>" + item.remarks
                               + "</td></tr>";
                           $('#tblClients tbody').append(row);
@@ -210,11 +214,22 @@
               $('#Url').val('');
               $('#Address').val('');
               $('#Email').val('');
-              $('#Remarks').val('');
+              //$('#Remarks').val('');
               $("#tblClients tbody tr").remove();
           }
     };
-
+    $(function () {
+        $('#orderModal').modal({
+            keyboard: true,
+            backdrop: "static",
+            show: false,
+           
+        }).on('show', function () { //subscribe to show method
+            var getIdFromRow = $(event.target).closest('tr').data('id'); //get the id from tr
+            //make your ajax call populate items or what even you need
+            $(this).find('#orderDetails').html($('<b> Order Id selected: ' + getIdFromRow + '</b>'))
+        });
+    });
     //$(function () {
     //    var availableTags = [
     //        "ActionScript",

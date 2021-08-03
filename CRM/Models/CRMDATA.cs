@@ -17,8 +17,15 @@ namespace CRM.Models
         public string Address { get; set; }
         public string Email { get; set; }
         public string WebUrl { get; set; }
-        public string Remarks { get; set; }
         public string Userid { get; set; }
+    }
+    public class CRMDATAChild
+    {
+        [Key]
+        public int id { get; set; }
+        public string Userid { get; set; }
+        public string Mob { get; set; }
+        public string Remarks { get; set; }
         public DateTime DateTime { get; set; }
     }
 }
