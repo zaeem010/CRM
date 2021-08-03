@@ -1,7 +1,10 @@
 ﻿using CRM.Data;
+using CRM.Data.Repository;
 using CRM.Models;
+using CRM.Models.Raw;
 using CRM.Models.VM;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +21,18 @@ namespace CRM.Controllers
         }
         public IActionResult Index(CRMDATA CRMDATA)
         {
-            CRMDATA.City = "Multan";
+            //CRMDATA.City = "Multan";
             CRMDATA.Country = "Pakistan";
+            var Con = new Repo<Contacts>().GetAllData("SELECT Mob as Contact FROM CRMDATA");
             var VM = new CRMVM
             {
                 CRMDATA = CRMDATA,
                 CRMDATAList = _context.CRMDATA.ToList(),
+                Contacts= Con.ToList(),
             };
             return View(VM);
         }
+        
         [HttpPost,ActionName("Index")]
         public IActionResult Save(CRMDATA CRMDATA)
         {
@@ -36,33 +42,15 @@ namespace CRM.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-        //public async Task<ActionResult> SuggestAsync(bool highlights, bool fuzzy, string term)
-        //{
-        //    InitSearch();
-
-        //    // Setup the suggest parameters.
-        //    var options = new SuggestOptions()
-        //    {
-        //        UseFuzzyMatching = fuzzy,
-        //        Size = 8,
-        //    };
-
-        //    if (highlights)
-        //    {
-        //        options.HighlightPreTag = "<b>";
-        //        options.HighlightPostTag = "</b>";
-        //    }
-
-        //    // Only one suggester can be specified per index. It is defined in the index schema.
-        //    // The name of the suggester is set when the suggester is specified by other API calls.
-        //    // The suggester for the hotel database is called "sg", and simply searches the hotel name.
-        //    var suggestResult = await _searchClient.SuggestAsync<Hotel>(term, "sg", options).ConfigureAwait(false);
-
-        //    // Convert the suggested query results to a list that can be displayed in the client.
-        //    List<string> suggestions = suggestResult.Value.Results.Select(x => x.Text).ToList();
-
-        //    // Return the list of suggestions.
-        //    return new JsonResult(suggestions);
-        //}
+        public IActionResult Action(string id)
+        {
+            var Mobs = _context.CRMDATA.FromSqlRaw("SELECT * FROM CRMDATA WHERE (Mob = '" + id + "')").ToList();
+            return Json(Mobs);
+        }
+        public IActionResult GetCRMList(string id)
+        {
+            var List = new Repo<CRMVMQ>().GetAllData("SELECT Userid, Remarks, DateTime FROM CRMDATA WHERE (Mob = '" + id + "')").ToList();
+            return Json(List);
+        }
     }
 }

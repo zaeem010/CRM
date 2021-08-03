@@ -1,7 +1,9 @@
-﻿using System;
+﻿using CRM.Models.Raw;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace CRM.Models.VM
 {
@@ -9,5 +11,6 @@ namespace CRM.Models.VM
     {
         public CRMDATA CRMDATA { get; set; }
         public IEnumerable<CRMDATA> CRMDATAList { get; set; }
+        public List<Contacts> Contacts { get; set; }
     }
 }
