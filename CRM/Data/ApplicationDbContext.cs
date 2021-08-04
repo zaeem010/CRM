@@ -11,6 +11,7 @@ namespace CRM.Data
     {
         public DbSet<CRMDATA> CRMDATA { get; set; }
         public DbSet<CRMDATAChild> CRMDATAChild { get; set; }
+        public DbSet<User> User { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
