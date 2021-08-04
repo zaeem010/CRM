@@ -3,6 +3,7 @@ using CRM.Data.Repository;
 using CRM.Models;
 using CRM.Models.Raw;
 using CRM.Models.VM;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -36,11 +37,11 @@ namespace CRM.Controllers
         [HttpPost,ActionName("Index")]
         public IActionResult Save(CRMDATA CRMDATA ,CRMDATAChild CRMDATAChild)
         {
-            CRMDATA.Userid = "1";
-            CRMDATAChild.Userid = "1";
+            CRMDATA.Userid = HttpContext.Session.GetString("Userid");
+            CRMDATAChild.Userid = HttpContext.Session.GetString("Userid");
             CRMDATAChild.DateTime = DateTime.Now;
             CRMDATAChild.Mob = CRMDATA.Mob;
-            var Count = new Repo<string>().GetMaxId("SELECT COUNT(*) AS Expr1 FROM CRMDATA WHERE (Mob = '03075378081')");
+            var Count = new Repo<string>().GetMaxId("SELECT COUNT(*) AS Expr1 FROM CRMDATA WHERE (Mob = '"+ CRMDATA.Mob + "')");
             if (Count == 0)
             {
                 _context.CRMDATA.Add(CRMDATA);
@@ -64,12 +65,12 @@ namespace CRM.Controllers
         }
         public IActionResult Action(string id)
         {
-            var Mobs = _context.CRMDATA.FromSqlRaw("SELECT * FROM CRMDATA WHERE (Mob = '" + id + "')").ToList();
+            var Mobs = _context.CRMDATA.FromSqlRaw("SELECT * FROM CRMDATA WHERE (Mob = '" + id + "') AND (Userid = '"+ HttpContext.Session.GetString("Userid") + "')").ToList();
             return Json(Mobs);
         }
         public IActionResult GetCRMList(string id)
         {
-            var List = new Repo<CRMVMQ>().GetAllData("SELECT * FROM CRMDATAChild WHERE (Mob = '" + id + "')").ToList();
+            var List = new Repo<CRMVMQ>().GetAllData("SELECT * FROM CRMDATAChild WHERE (Mob = '" + id + "') AND (Userid = '" + HttpContext.Session.GetString("Userid") + "')").ToList();
             return Json(List);
         }
     }

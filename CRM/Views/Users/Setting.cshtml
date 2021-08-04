@@ -1,0 +1,49 @@
+﻿@model CRM.Models.User
+@{
+    ViewData["Title"] = "Setting";
+}
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <!-- Zero config table start -->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Users Details</h5>
+                    </div>
+                    @*<a asp-action="Index" class="btn btn-primary col-md-2 offset-sm-10 text-left"><i class="feather icon-list"></i>&nbsp;&nbsp; Index</a>*@
+                    <p class="bg-danger col-md-3">@TempData["Invalid"]</p>
+                    <div class="card-body">
+                        <form asp-action="Setting" method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                    <label>User Name</label>
+                                    <input type="text" asp-for="UserName" class="form-control" placeholder="Abc...."required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Name</label>
+                                    <input type="text" asp-for="Name" class="form-control" placeholder="Abc...."required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>Old Password</label>
+                                    <input type="password" asp-for="Password" class="form-control" required>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label>New Password</label>
+                                    <input type="password" class="form-control" name="NewPass" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary col-md-3 offset-9"><i class="feather icon-save"></i> Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Zero config table end -->
+
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</section>
+<!-- [ Main Content ] end -->

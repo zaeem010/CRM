@@ -1,0 +1,44 @@
+﻿@model CRM.Models.User
+@{
+    ViewData["Title"] = "Create";
+}
+<section class="pcoded-main-container">
+    <div class="pcoded-content">
+        <!-- [ Main Content ] start -->
+        <div class="row">
+            <!-- Zero config table start -->
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Users From</h5>
+                    </div>
+                    <a asp-action="Index" class="btn btn-primary col-md-2 offset-sm-10 text-left"><i class="feather icon-list"></i>&nbsp;&nbsp; Index</a>
+                    <div class="card-body">
+                        <form asp-action="Create" method="post">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label>Name</label>
+                                    <input type="text" asp-for="Name" class="form-control"placeholder="Abc...." required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>User Name</label>
+                                    <input type="text" asp-for="UserName" class="form-control" placeholder="Admin...."required>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control"asp-for="Password"required>
+                                </div>
+                            </div>
+                           
+                            <button type="submit" class="btn btn-primary col-md-3 offset-9"><i class="feather icon-save"></i> Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Zero config table end -->
+
+        </div>
+        <!-- [ Main Content ] end -->
+    </div>
+</section>
+<!-- [ Main Content ] end -->
