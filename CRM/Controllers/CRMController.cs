@@ -65,7 +65,7 @@ namespace CRM.Controllers
         }
         public IActionResult Action(string id)
         {
-            var Mobs = _context.CRMDATA.FromSqlRaw("SELECT * FROM CRMDATA WHERE (Mob = '" + id + "') AND (Userid = '"+ HttpContext.Session.GetString("Userid") + "')").ToList();
+            var Mobs = _context.CRMDATA.FromSqlRaw("SELECT * FROM CRMDATA WHERE (Mob = '" + id + "')").ToList();
             return Json(Mobs);
         }
         public IActionResult GetCRMList(string id)

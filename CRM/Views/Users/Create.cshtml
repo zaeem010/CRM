@@ -13,6 +13,7 @@
                         <h5>Users From</h5>
                     </div>
                     <a asp-action="Index" class="btn btn-primary col-md-2 offset-sm-10 text-left"><i class="feather icon-list"></i>&nbsp;&nbsp; Index</a>
+                    <p class="bg-danger col-md-3">@TempData["Duplicate"]</p>
                     <div class="card-body">
                         <form asp-action="Create" method="post">
                             <div class="form-row">

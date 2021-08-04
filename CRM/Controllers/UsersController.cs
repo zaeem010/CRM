@@ -1,4 +1,5 @@
 ﻿using CRM.Data;
+using CRM.Data.Repository;
 using CRM.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,9 +30,17 @@ namespace CRM.Controllers
         [HttpPost]
         public IActionResult Create(User User)
         {
-            _context.User.Add(User);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            var d = new Repo<string>().GetMaxId("SELECT COUNT(*) AS Expr1 FROM [User] WHERE (UserName = '"+  User.UserName+"')");
+            if (d == 0) 
+            {
+                _context.User.Add(User);
+                _context.SaveChanges();
+            }
+            else
+            {
+                TempData["Duplicate"] = "User With This Name ("+ User.UserName +") Already Exists.";
+            }
+            return RedirectToAction("Create");
         }
         public IActionResult Delete(int id)
         {
