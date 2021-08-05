@@ -34,7 +34,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label for="inputState">Mobile Contact/No</label>
-                                    <input id="tags" class="form-control" required asp-for="CRMDATA.Mob" onkeyup="Action(this.value)">
+                                    <input id="tags" class="form-control" required asp-for="CRMDATA.Mob"  onkeyup="Action(this.value)" onchange="Action(this.value)">
                                 </div>
                             </div>
 
@@ -127,8 +127,8 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div id="orderDetails" class="modal-body"></div>
-            <div id="orderItems" class="modal-body"></div>
+            <div id="remove-candidates-modal-body" class="modal-body"></div>
+            @*<div id="orderItems" class="modal-body"></div>*@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
@@ -162,6 +162,8 @@
             $('#Remarks').val('');
             $("#tblClients tbody tr").remove();
         }
+        let Indata = ``;
+//        alert(Indata);
         $.ajax({
             url: '@Url.Action("Action", "CRM")',
             type: "POST",
@@ -191,14 +193,17 @@
                   if (data1 != null) {
                       $.each(data1, function (i, item) {
                           var row = "";
-                          row += "<tr data-toggle='modal' data-id='3' data-target='#orderModal'><td>" + item.userid
+                          row += "<tr data-toggle='modal' data-id='3' data-target='#orderModals'><td>" + item.userid
                               //+ "</td><td>" + item.dateTime
                               + "</td><td>" + moment(item.dateTime).format('DD-MM-YYYY h:mm A')
-                              + "</td><td>" + item.remarks
+                              + "</td><td onclick='removeCandidate(this.value)'><input  value='" + item.remarks +"' id='indata'/>" + item.remarks
                               + "</td></tr>";
                           $('#tblClients tbody').append(row);
-                      })
-                  }
+                          
+                      });
+
+                      document.getElementById('remove-candidates-modal-body').innerHTML = item.remarks;
+                  };
               },
               error: function (result) {
                   alert("Error");
@@ -215,6 +220,10 @@
               $("#tblClients tbody tr").remove();
           }
     };
+    function removeCandidate() {
+        var Newdata = document.getElementById('indata').value;
+        alert(Newdata);
+    }
     $(function () {
         $('#orderModal').modal({
             keyboard: true,
