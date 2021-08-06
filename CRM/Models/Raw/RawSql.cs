@@ -20,5 +20,6 @@ namespace CRM.Models.Raw
         public string Mob { get; set; }
         public DateTime DateTime { get; set; }
         public string Remarks { get; set; }
+        public string UserName { get; set; }
     }
 }

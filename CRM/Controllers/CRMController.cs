@@ -70,7 +70,7 @@ namespace CRM.Controllers
         }
         public IActionResult GetCRMList(string id)
         {
-            var List = new Repo<CRMVMQ>().GetAllData("SELECT * FROM CRMDATAChild WHERE (Mob = '" + id + "') AND (Userid = '" + HttpContext.Session.GetString("Userid") + "')").ToList();
+            var List = new Repo<CRMVMQ>().GetAllData("SELECT CRMDATAChild.id, CRMDATAChild.Userid, CRMDATAChild.Mob, CRMDATAChild.Remarks, CRMDATAChild.DateTime, [User].Name AS UserName FROM CRMDATAChild INNER JOIN [User] ON CRMDATAChild.Userid = [User].id WHERE(CRMDATAChild.Mob = '"+ id +"') AND (Userid = '" + HttpContext.Session.GetString("Userid") + "')").ToList();
             return Json(List);
         }
     }
